@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<title>ClassFlow — Personal Study OS</title>
+<style>
+:root{--bg:#070b16;--panel:#0d1324;--panel2:#111a2e;--text:#f5f7ff;--muted:#8e9ab4;--line:#202b43;--a:#7c6cff;--a2:#27d7b5;--danger:#ff6370;--shadow:0 20px 60px #0007;--button:#121a2d;--glass:#0c1221cc}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 80% 0,#1c2550 0,var(--bg) 42%);color:var(--text);font:14px Inter,system-ui,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}.side{width:255px;background:var(--glass);border-right:1px solid var(--line);padding:24px 15px;position:fixed;height:100vh;backdrop-filter:blur(18px);z-index:5}.brand{font-size:22px;font-weight:900;padding:5px 10px 30px}.brand b{color:var(--a)}.nav button{display:block;width:100%;border:0;background:none;color:#9aa6c0;text-align:left;padding:13px 14px;border-radius:12px;margin:4px 0}.nav button.active,.nav button:hover{background:#171f35;color:#fff}.bottom{position:absolute;bottom:25px;left:20px;right:20px;color:var(--muted);font-size:12px;line-height:1.5}
+main{margin-left:255px;width:calc(100% - 255px);padding:30px;max-width:1500px}.top{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:25px}.eyebrow{color:#9ca8c1;font-size:12px;text-transform:uppercase;letter-spacing:1.5px}.top h1{font-size:34px;margin:4px 0}.top p{margin:0;color:var(--muted)}.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--button);color:var(--text);padding:10px 14px;border-radius:11px;font-weight:700;transition:transform .15s,box-shadow .15s}.btn:hover{transform:translateY(-1px);box-shadow:0 8px 22px #0002}.btn.primary{background:linear-gradient(135deg,var(--a),#9b6cff);border:0;color:#fff;box-shadow:0 8px 25px #7c6cff35}.btn.green{background:color-mix(in srgb,var(--a2) 18%,var(--button));color:var(--a2);border-color:#1c5c51}.share-card{background:#101a30;border:1px solid #263556;border-radius:14px;padding:15px;line-height:1.55}.share-url{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:#0a1020;color:#dfe6ff;outline:0;margin-top:10px}.btn.danger{color:#ff8790}.btn.small{padding:7px 10px;font-size:12px}.install{display:block}.install.show{display:block}.android-note{background:#101a30;border:1px solid #263556;border-radius:12px;padding:12px;color:#c8d2e8;line-height:1.6}.android-note b{color:#fff}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat,.panel{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.stat{padding:19px}.stat small{color:var(--muted)}.num{font-size:30px;font-weight:900;margin-top:7px}.accent{color:#a99cff}
+.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-top:18px}.panel{padding:20px}.panel h2{margin:0 0 15px;font-size:18px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.panel-head h2{margin:0}.toolbar{display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap}.toolbar .input{flex:1;min-width:190px}.input{background:#0c1323;border:1px solid var(--line);color:#fff;padding:11px 13px;border-radius:11px;outline:0}.input:focus{border-color:#6257d8}.task{display:flex;gap:13px;padding:14px 0;border-bottom:1px solid var(--line);align-items:flex-start}.task:last-child{border-bottom:0}.check{width:22px;height:22px;border:1px solid #394765;border-radius:7px;background:#0b1120;color:#fff;display:grid;place-items:center;flex:none}.check.done{background:var(--a);border-color:var(--a)}.task-main{flex:1;min-width:0}.task-title{font-weight:800}.task-title.clickable{cursor:pointer}.task-title.clickable:hover{color:#b8afff}.meta{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}.doneText{text-decoration:line-through;color:#68738b}.chip{font-size:11px;padding:4px 8px;border-radius:99px;background:#1b2440;color:#aeb8d2;white-space:nowrap}.chip.class{color:#c9c2ff}.chip.exam{color:#ffd59a}.chip.task{color:#91ebda}.progress{height:7px;background:#171f32;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--a2))}
+.event-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.event-row:last-child{border-bottom:0}.event-left{min-width:0}.event-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.title-link{font-weight:800;cursor:pointer}.title-link:hover{color:#b7afff}.calendar-wrap{overflow:auto}.calendar{display:grid;grid-template-columns:repeat(7,minmax(120px,1fr));gap:7px;min-width:850px}.dow{font-size:11px;color:var(--muted);padding:5px}.day{min-height:120px;background:#0b1221;border:1px solid var(--line);border-radius:12px;padding:8px;cursor:pointer}.day:hover{border-color:#46537b}.day.today{outline:2px solid color-mix(in srgb,var(--a) 55%,transparent);outline-offset:-2px}.day.muted-day{opacity:.55}.day b{font-size:11px;color:var(--muted)}.event{font-size:11px;background:#1a2140;border-left:3px solid var(--a);padding:5px;margin-top:7px;border-radius:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}.event.exam{border-left-color:#e9a94f}.event.task{border-left-color:var(--a2)}
+.quote-card{position:relative;overflow:hidden;min-height:205px;margin-bottom:18px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(90deg,#070b16ed 0%,#070b1688 55%,#070b1626 100%),url("assets/motivation.png") center/cover;box-shadow:var(--shadow);display:flex;align-items:center;padding:30px}.quote-content{position:relative;z-index:1;max-width:760px}.quote-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#c5bfff;font-weight:900;margin-bottom:10px}.quote-title{font-family:Georgia,serif;font-size:30px;font-weight:700;margin:0 0 12px;color:#fff}.quote-text{font-family:Georgia,serif;font-size:16px;line-height:1.65;color:#f2f4fa;margin:0}
+.theme-switcher{display:flex;gap:4px;align-items:center;padding:4px;border:1px solid var(--line);background:var(--glass);border-radius:14px;backdrop-filter:blur(14px)}.theme-btn{border:0;background:transparent;color:var(--muted);padding:7px 9px;border-radius:9px;font-weight:900}.theme-btn.active{background:var(--a);color:#fff;box-shadow:0 5px 16px #0002}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal.show{display:flex}.box{width:min(760px,100%);max-height:94vh;overflow:auto;background:#0d1425;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}.head{display:flex;justify-content:space-between;gap:10px;margin-bottom:18px}.head h2{margin:0}.form{display:grid;gap:12px}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.form label{font-size:12px;color:#aab5ca}.form input,.form select,.form textarea{width:100%;background:#090f1d;border:1px solid var(--line);color:#fff;padding:11px;border-radius:10px;margin-top:5px}.form textarea{min-height:90px;resize:vertical}.filebox{border:1px dashed #394766;border-radius:12px;padding:14px;color:var(--muted);margin-top:5px}.filebox input{display:block;margin-top:8px;width:100%}.seg{display:flex;gap:8px;flex-wrap:wrap}.seg label{border:1px solid var(--line);padding:9px 12px;border-radius:11px;color:var(--text);background:#0d1425;cursor:pointer}.seg input{width:auto;margin:0}.notice{background:#151e35;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:12px;color:#bdc7dc;line-height:1.55}.empty{padding:35px;text-align:center;color:var(--muted)}.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.section-gap{margin-top:18px}.folder{border:1px solid var(--line);border-radius:15px;padding:14px;margin:10px 0;background:#0b1221}.folder-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.folder-title{font-weight:900}.subfile{margin:9px 0 0 18px;padding:10px 0 10px 14px;border-left:2px solid #2b3754}.subfile-title{font-weight:800}.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+body.light{--bg:#f4f6fb;--panel:#fff;--panel2:#f7f8fc;--text:#172033;--muted:#657089;--line:#dfe4ee;--a:#5d50e8;--a2:#159d82;--danger:#d94b59;--shadow:0 14px 35px #1d294014;--button:#f4f6fb;--glass:#ffffffdd;background:radial-gradient(circle at 80% 0,#e5eaff 0,var(--bg) 48%)}
+body.eyesafe{--bg:#e8e2d1;--panel:#f4efdf;--panel2:#ebe5d4;--text:#3f4038;--muted:#77776b;--line:#d0c7ae;--a:#6d7350;--a2:#66806b;--danger:#a05252;--shadow:0 14px 35px #625b451f;--button:#e9e2cf;--glass:#f1ead9e8;background:radial-gradient(circle at 80% 0,#ddd4b8 0,var(--bg) 48%)}
+body.light .quote-card{background:linear-gradient(90deg,#172033dd 0%,#17203399 55%,#17203333 100%),url("assets/motivation.png") center/cover}body.eyesafe .quote-card{background:linear-gradient(90deg,#36392ddd 0%,#36392d99 55%,#36392d33 100%),url("assets/motivation.png") center/cover}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.grid,.stat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.side{width:75px}.brand{font-size:0}.brand b{font-size:22px}.nav button{font-size:0;text-align:center}.nav button:first-letter{font-size:20px}main{margin-left:75px;width:calc(100% - 75px)}.bottom{display:none}}
+@media(max-width:600px){main{padding:18px}.top{align-items:flex-start}.top h1{font-size:26px}.two,.three{grid-template-columns:1fr}.grid,.stat-grid{grid-template-columns:1fr 1fr}.quote-card{min-height:260px;padding:24px}.quote-title{font-size:25px}.quote-text{font-size:14px}.actions{justify-content:flex-end}.box{padding:16px}}
+
+/* v8 class library + in-app learning player */
+.class-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+.class-card{overflow:hidden;background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);transition:transform .18s,border-color .18s,box-shadow .18s;cursor:pointer}
+.class-card:hover{transform:translateY(-3px);border-color:#46537b;box-shadow:0 24px 60px #0005}
+.class-cover{height:165px;background:#111a2e;position:relative;overflow:hidden}
+.class-cover img,.class-cover video{width:100%;height:100%;object-fit:cover;display:block}
+.cover-placeholder{height:100%;display:grid;place-items:center;background:radial-gradient(circle at 20% 20%,#373071,#11182c 55%,#090e1a);font-size:52px}
+.class-badge{position:absolute;top:10px;left:10px;background:#090e1dcc;border:1px solid #ffffff20;color:#fff;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;backdrop-filter:blur(8px)}
+.class-body{padding:15px}.class-title{font-size:16px;font-weight:900;line-height:1.35;margin-bottom:7px}.class-meta{font-size:12px;color:var(--muted);line-height:1.55}.class-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:13px}.download-link{color:var(--a2);font-size:12px;font-weight:800}.detail-shell{max-width:1180px;margin:0 auto}.detail-back{margin-bottom:14px}.player{background:#05070d;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);min-height:320px;display:grid;place-items:center}.player video,.player iframe,.player img{width:100%;max-height:650px;display:block;background:#05070d}.player iframe{height:650px;border:0}.video-wrap{width:100%;background:#05070d}.video-wrap video{max-height:650px}.video-tools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 12px;background:#0a0e18;border-top:1px solid #20283a}.video-tools label{font-size:12px;color:#aeb8cd;display:flex;align-items:center;gap:8px}.video-tools select{background:#111827;color:#fff;border:1px solid #2a3550;border-radius:9px;padding:7px 10px}.storage-note{margin-top:12px}.quality-help{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5}.player img{object-fit:contain;max-height:650px}.player-placeholder{padding:60px 25px;text-align:center;color:var(--muted)}.player-placeholder strong{display:block;color:#fff;font-size:20px;margin-bottom:8px}.detail-info{display:grid;grid-template-columns:1fr auto;gap:18px;margin-top:18px}.detail-info .panel{padding:22px}.detail-title{font-size:30px;font-weight:900;margin:0 0 9px}.detail-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end;align-items:flex-start}.file-strip{margin-top:15px;padding:12px 14px;background:#0b1221;border:1px solid var(--line);border-radius:12px;color:#cbd5ea}.cover-picker{margin-top:8px}.cover-note{font-size:11px;color:var(--muted);margin-top:6px}
+@media(max-width:900px){.class-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-info{grid-template-columns:1fr}.detail-actions{justify-content:flex-start}.player iframe{height:52vh}}
+@media(max-width:600px){.class-grid{grid-template-columns:1fr}.class-cover{height:185px}.detail-title{font-size:24px}.player{min-height:230px}.player iframe{height:45vh}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand">Class<b>Flow</b></div>
+  <div class="nav">
+    <button type="button" class="active" data-p="home">🏠 <span>Overview</span></button>
+    <button type="button" data-p="tasks">✓ <span>Today Tasks</span></button>
+    <button type="button" data-p="classes">📚 <span>Classes</span></button>
+    <button type="button" data-p="chapters">🗂️ <span>Chapters</span></button>
+    <button type="button" data-p="calendar">▦ <span>Calendar</span></button>
+    <button type="button" id="shareAppSide">🔗 <span>Share App</span></button>
+  </div>
+  <div class="bottom" id="storageStatus">Offline-first • Data stays on this device<br>Installable on Android as a PWA</div>
+</aside>
+<main>
+  <div class="top">
+    <div><div class="eyebrow">Personal Study OS</div><h1 id="title">Good study, Srabon.</h1><p id="sub"></p></div>
+    <div class="actions">
+      <div class="theme-switcher" title="Theme"><button class="theme-btn" data-theme="dark">◐</button><button class="theme-btn" data-theme="light">☀</button><button class="theme-btn" data-theme="eyesafe">🌿</button></div>
+      <button class="btn" id="shareApp">🔗 Share App</button>
+      <button class="btn install" id="install">📱 Android App</button>
+      <button class="btn primary" id="add">＋ Add</button>
+    </div>
+  </div>
+  <div id="view"></div>
+</main>
+</div>
+<div class="modal" id="modal"><div class="box"><div class="head"><h2 id="mt">Add item</h2><button class="btn" id="close">✕</button></div><form class="form" id="form"></form></div></div>
+<script>
+const DBN="classflowDB",ST="items",DBV=5;
+let db,currentView="home",editId=null,deferred=null,calCursor=new Date(),activeChapter=null,storageMode="indexedDB",memoryItems=[];
+const $=id=>document.getElementById(id);
+const uid=()=>{try{if(globalThis.crypto?.randomUUID)return globalThis.crypto.randomUUID()}catch(e){}return "cf-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2)+"-"+Math.random().toString(36).slice(2)};
+const pad=n=>String(n).padStart(2,"0");
+function localKey(d=new Date()){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function parseKey(s){return new Date(s+"T12:00:00")}
+function dayName(s){return parseKey(s).toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}
+function fullDate(s){return parseKey(s).toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"})}
+function timeText(t){return t||"No time"}
+function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
+function typeLabel(t){return t==="class"?"Class":t==="exam"?"Exam":"Task"}
+function openDB(){return new Promise((resolve,reject)=>{if(!window.indexedDB){reject(new Error("IndexedDB is unavailable in this browser/context."));return}let req;try{req=indexedDB.open(DBN,DBV)}catch(err){reject(err);return}req.onupgradeneeded=e=>{const d=e.target.result;if(!d.objectStoreNames.contains(ST))d.createObjectStore(ST,{keyPath:"id"})};req.onsuccess=e=>resolve(e.target.result);req.onerror=()=>reject(req.error||new Error("IndexedDB could not be opened."));req.onblocked=()=>reject(new Error("IndexedDB is blocked by another browser tab or privacy setting."))})}
+function all(){if(!db)return Promise.resolve(memoryItems.slice());return new Promise((res,rej)=>{let t;try{t=db.transaction(ST).objectStore(ST).getAll()}catch(err){rej(err);return}t.onsuccess=()=>res(t.result);t.onerror=()=>rej(t.error)})}
+function put(x){if(!db){const i=memoryItems.findIndex(z=>z.id===x.id);if(i>=0)memoryItems[i]=x;else memoryItems.push(x);return Promise.resolve()}return new Promise((res,rej)=>{let t;try{t=db.transaction(ST,"readwrite").objectStore(ST).put(x)}catch(err){rej(err);return}t.onsuccess=()=>res();t.onerror=()=>rej(t.error)})}
+async function putMany(arr){for(const x of arr)await put(x)}
+async function del(id){if(!db){memoryItems=memoryItems.filter(x=>x.id!==id);return Promise.resolve()}return new Promise((res,rej)=>{let t;try{t=db.transaction(ST,"readwrite").objectStore(ST).delete(id)}catch(err){rej(err);return}t.onsuccess=()=>res();t.onerror=()=>rej(t.error)})}
+function safeStorageGet(key,fallback=""){try{return localStorage.getItem(key)??fallback}catch(_e){return fallback}}
+function safeStorageSet(key,value){try{localStorage.setItem(key,value)}catch(_e){}}
+function sortDateTime(a,b){return ((a.date||"9999")+"T"+(a.time||"99:99")).localeCompare((b.date||"9999")+"T"+(b.time||"99:99"))}
+function isEvent(x){return ["class","task","exam"].includes(x.type)}
+function getChapters(a){return a.filter(x=>x.type==="chapter").sort((x,y)=>x.title.localeCompare(y.title))}
+function chapterName(a,id){return id?(getChapters(a).find(c=>c.id===id)?.title||""):""}
+function eventItems(a){return a.filter(isEvent)}
+async function render(){const a=await all();$("sub").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.p===currentView));if(currentView==="home")home(a);if(currentView==="tasks")tasks(a);if(currentView==="classes")classes(a);if(currentView==="chapters")chapters(a);if(currentView==="calendar")calendar(a)}
+function statCard(label,n,accent=""){return `<div class="stat"><small>${label}</small><div class="num ${accent}">${n}</div></div>`}
+function home(a){const events=eventItems(a),classes=a.filter(x=>x.type==="class"),tasks=a.filter(x=>x.type==="task"),exams=a.filter(x=>x.type==="exam"),done=events.filter(x=>x.done).length,p=events.length?Math.round(done/events.length*100):0,today=localKey(),todayEvents=events.filter(x=>x.date===today).sort(sortDateTime),up=events.filter(x=>!x.done&&x.date&&x.date>=today).sort(sortDateTime).slice(0,6);
+$("title").textContent="Good study, Srabon.";
+$("view").innerHTML=`<div class="quote-card"><div class="quote-content"><div class="quote-label">Daily reminder</div><div class="quote-title">God's plan...</div><p class="quote-text">God's plan is always the best. Sometimes the process is painful and hard, but don't forget that when God is silent He is doing something great for you.</p></div></div>
+<div class="stat-grid">${statCard("Classes",classes.length)}${statCard("Today",todayEvents.length)}${statCard("Exams",exams.length)}<div class="stat"><small>Progress</small><div class="num accent">${p}%</div><div class="progress"><i style="width:${p}%"></i></div></div></div>
+<div class="layout"><section class="panel"><div class="panel-head"><h2>⚡ Up next</h2><button class="btn small" onclick="go('calendar')">Open Calendar</button></div>${up.length?up.map(eventRow).join(""):'<div class="empty">Nothing scheduled yet.</div>'}</section><section class="panel"><div class="panel-head"><h2>📅 Today</h2><button class="btn primary small" onclick="go('tasks')">Open Today</button></div>${todayEvents.length?todayEvents.map(eventRow).join(""):'<div class="empty">No class, task or exam today.</div>'}</section></div>`}
+function eventRow(x){return `<div class="event-row"><div class="event-left"><div class="title-link" onclick="openDetails('${x.id}')">${x.type==="class"?'📚 ':x.type==="exam"?'📝 ':'✓ '}${esc(x.subject?x.subject+' — ':'')}${esc(x.title)}</div><div class="meta">${x.date?fullDate(x.date):'No date'} • ${timeText(x.time)}${x.chapterId?' • 🗂️ '+esc(x.chapterName||''):''}${x.room?' • 📍 '+esc(x.room):''}</div></div><div class="event-actions">${x.type==="class"&&(x.fileData||x.url)?`<button class="btn green small" onclick="downloadFile('${x.id}')">📥 Save in App</button>`:''}<span class="chip ${x.type}">${typeLabel(x.type)}</span></div></div>`}
+function tasks(a){const today=localKey(),arr=eventItems(a).filter(x=>x.date===today).sort(sortDateTime);$("title").textContent="Today's tasks";$("view").innerHTML=`<div class="toolbar"><button class="btn primary" onclick="openAdd('task')">＋ Task</button><button class="btn" onclick="openAdd('class')">＋ Class</button><button class="btn" onclick="openAdd('exam')">＋ Exam</button><button class="btn" onclick="openRecurring()">↻ Repeat Weekly</button></div><section class="panel"><div class="panel-head"><h2>${fullDate(today)}</h2><div class="legend">${arr.length} scheduled</div></div>${arr.length?arr.map(x=>`<div class="task"><button class="check ${x.done?'done':''}" onclick="toggle('${x.id}');event.stopPropagation()">${x.done?'✓':''}</button><div class="task-main" onclick="openDetails('${x.id}')"><div class="task-title clickable">${x.type==="class"?'📚 ':x.type==="exam"?'📝 ':'✓ '}${esc(x.subject?x.subject+' — ':'')}${esc(x.title)}</div><div class="meta">⏰ ${timeText(x.time)}${x.room?' • 📍 '+esc(x.room):''}${x.chapterId?' • 🗂️ '+esc(x.chapterName||''):''}</div></div><span class="chip ${x.type}">${typeLabel(x.type)}</span></div>`).join(""):'<div class="empty">No class, task or exam today. Add one above.</div>'}</section>`}
+function revokeMediaUrls(){if(window.__cfUrls){window.__cfUrls.forEach(u=>URL.revokeObjectURL(u));}window.__cfUrls=[]}
+function mediaUrl(data){if(!data)return"";if(typeof data==="string")return data;try{const u=URL.createObjectURL(data);window.__cfUrls.push(u);return u}catch(e){return""}}
+function qualityEntries(x){const out=[];if(x.fileData)out.push({key:"original",label:"Original",data:x.fileData});const q=x.qualityData||{};for(const [key,label] of [["144p","144p"],["360p","360p"],["480p","480p"],["720p","720p"],["1080p","1080p"]])if(q[key]?.data)out.push({key,label,data:q[key].data});return out}
+function qualityLabel(x){return x.key==="original"?"Original":x.label}
+function switchVideoQuality(select){const wrap=select.closest(".video-wrap"),video=wrap?.querySelector("video");if(!video)return;const src=select.value;const wasPlaying=!video.paused&&!video.ended;const time=video.currentTime||0;video.onloadedmetadata=()=>{try{video.currentTime=Math.min(time||0,Math.max(0,video.duration||time||0))}catch(_e){}if(wasPlaying)video.play().catch(()=>{})};video.src=src;video.load()}
+function classCard(x){
+  const cover=mediaUrl(x.coverData);
+  const isImg=x.fileData&&String(x.fileType||"").startsWith("image/");
+  const fileImg=!cover&&isImg?mediaUrl(x.fileData):"";
+  const src=cover||fileImg;
+  const label=x.fileType?.startsWith("video/")?"VIDEO":x.fileData?"FILE":"CLASS";
+  return `<article class="class-card" onclick="openDetails('${x.id}')">
+    <div class="class-cover">${src?`<img src="${esc(src)}" alt="">`:`<div class="cover-placeholder">📚</div>`}<span class="class-badge">${label}</span></div>
+    <div class="class-body">
+      <div class="class-title">${esc(x.title)}</div>
+      <div class="class-meta">${x.subject?esc(x.subject)+' • ':''}${x.date?fullDate(x.date):'No date'} • ${timeText(x.time)}</div>
+      ${x.chapterName?`<div class="class-meta">🗂️ ${esc(x.chapterName)}</div>`:''}
+      <div class="class-footer"><span class="download-link">${x.fileData?'⬇ Download available':'▶ Open class'}</span><span class="chip class">Class</span></div>
+    </div>
+  </article>`
+}
+function classes(a){
+  revokeMediaUrls();
+  const q=($('q')?.value||'').toLowerCase();
+  const arr=a.filter(x=>x.type==='class'&&(x.subject+' '+x.title+' '+(x.chapterName||'')).toLowerCase().includes(q)).sort(sortDateTime);
+  $("title").textContent="Classes";
+  $("view").innerHTML=`<div class="toolbar"><input class="input" id="q" placeholder="Search subject, chapter or class..." value="${esc(q)}"><button class="btn primary" onclick="openAdd('class')">＋ Upload Class</button><button class="btn" onclick="go('chapters')">🗂️ Chapters</button></div>
+  ${arr.length?`<div class="class-grid">${arr.map(classCard).join('')}</div>`:`<section class="panel"><div class="empty">No classes found. Click “Upload Class” to add your first class.</div></section>`}`;
+  $('q').oninput=()=>classes(a)
+}
+function chapters(a){const cs=getChapters(a),classesA=a.filter(x=>x.type==='class');$("title").textContent="Chapters & Classes";$("view").innerHTML=`<div class="toolbar"><button class="btn primary" onclick="openChapter()">＋ Chapter</button><button class="btn" onclick="openAdd('class')">＋ Class</button></div><div class="panel">${cs.length?cs.map(c=>{const list=classesA.filter(x=>x.chapterId===c.id).sort(sortDateTime);return `<div class="folder"><div class="folder-head"><div><div class="folder-title">🗂️ ${esc(c.title)}</div><div class="meta">${list.length} class${list.length===1?'':'es'}</div></div><div class="event-actions"><button class="btn small" onclick="openAdd('class',null,'${c.id}')">＋ Class</button><button class="btn small" onclick="openChapter('${c.id}')">Edit</button><button class="btn danger small" onclick="deleteChapter('${c.id}')">Delete</button></div></div>${list.length?list.map(x=>`<div class="subfile"><div class="subfile-title title-link" onclick="openDetails('${x.id}')">📄 ${esc(x.title)}</div><div class="meta">${esc(x.subject||'')} • ${x.date?dayName(x.date):'No date'} • ${timeText(x.time)}${x.fileName?' • 📦 '+esc(x.fileName):''}</div></div>`).join(''):'<div class="empty" style="padding:18px">No class inside this chapter yet.</div>'}</div>`}).join(''):'<div class="empty">No chapters yet. Create a chapter such as “C Programming — Chapter 01”.</div>'}</div>`}
+function calendar(a){const y=calCursor.getFullYear(),m=calCursor.getMonth(),first=new Date(y,m,1),start=first.getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate(),evs=eventItems(a),today=localKey();let cells='';for(let i=start-1;i>=0;i--){const d=prevDays-i,ds=localKey(new Date(y,m-1,d));cells+=dayCell(ds,d,true,evs)}for(let d=1;d<=days;d++){const ds=`${y}-${pad(m+1)}-${pad(d)}`;cells+=dayCell(ds,d,false,evs)}let rem=(7-(cells.match(/class="day/g)||[]).length%7)%7;for(let d=1;d<=rem;d++){const ds=localKey(new Date(y,m+1,d));cells+=dayCell(ds,d,true,evs)}
+$("title").textContent="Calendar";$("view").innerHTML=`<section class="panel"><div class="panel-head"><div><h2>▦ ${new Date(y,m,1).toLocaleDateString(undefined,{month:'long',year:'numeric'})}</h2><div class="legend">Click a day to add • click an event to open the class/task/exam</div></div><div class="actions"><button class="btn small" onclick="moveMonth(-1)">←</button><button class="btn small" onclick="calCursor=new Date();render()">Today</button><button class="btn small" onclick="moveMonth(1)">→</button><button class="btn primary small" onclick="openAdd('exam')">＋ Exam</button><button class="btn small" onclick="openRecurring()">↻ Weekly</button></div></div><div class="calendar-wrap"><div class="calendar"><div class="dow">Sun</div><div class="dow">Mon</div><div class="dow">Tue</div><div class="dow">Wed</div><div class="dow">Thu</div><div class="dow">Fri</div><div class="dow">Sat</div>${cells}</div></div></section>`}
+function dayCell(ds,d,muted,evs){const arr=evs.filter(x=>x.date===ds).sort(sortDateTime);return `<div class="day ${muted?'muted-day ':''}${ds===localKey()?'today':''}" onclick="dayAction('${ds}',event)"><b>${d}</b>${arr.map(x=>`<div class="event ${x.type}" title="${esc(x.title)}" onclick="event.stopPropagation();openDetails('${x.id}')">${x.time?esc(x.time)+' ':''}${x.type==='class'?'📚':x.type==='exam'?'📝':'✓'} ${esc(x.title)}</div>`).join('')}</div>`}
+function moveMonth(step){calCursor=new Date(calCursor.getFullYear(),calCursor.getMonth()+step,1);render()}
+function dayAction(ds,e){if(e.target.closest('.event'))return;const choice=prompt('Type to add: class / task / exam / recurring','class');if(!choice)return;const t=choice.toLowerCase();if(t==='recurring'){openRecurring(ds);return}if(['class','task','exam'].includes(t))openAdd(t,null,null,ds)}
+function navigate(p){
+  const allowed=['home','tasks','classes','chapters','calendar'];
+  if(!allowed.includes(p)) return;
+  currentView=p;
+  try{
+    const target=p==='home' ? location.pathname : location.pathname+'#'+p;
+    window.history.replaceState(null,'',target);
+  }catch(err){
+    try{location.hash=p==='home'?'':p}catch(_){}
+  }
+  render();
+}
+function go(p){navigate(p)}
+window.go=go;window.navigate=navigate;
+async function openDetails(id){
+  const a=await all(),x=a.find(z=>z.id===id);
+  if(!x)return;
+  if(x.type!=="class"){
+    $('mt').textContent=typeLabel(x.type)+" details";
+    $('form').innerHTML=`<div class="notice"><b>${esc(x.subject?x.subject+' — ':'')}${esc(x.title)}</b><br>📅 ${x.date?fullDate(x.date):'No date'}<br>⏰ ${timeText(x.time)}${x.room?'<br>📍 '+esc(x.room):''}${x.notes?'<br><br>📝 '+esc(x.notes):''}</div><div class="actions" style="justify-content:flex-end"><button type="button" class="btn" onclick="$('modal').classList.remove('show')">Close</button><button type="button" class="btn" onclick="toggle('${x.id}');openDetails('${x.id}')">${x.done?'Mark Pending':'Mark Done'}</button><button type="button" class="btn primary" onclick="edit('${x.id}')">Edit</button></div>`;
+    $('modal').classList.add('show');return;
+  }
+  currentView="class-detail";
+  revokeMediaUrls();
+  const fileUrl=mediaUrl(x.fileData), coverUrl=mediaUrl(x.coverData);
+  let player="";
+  const ft=String(x.fileType||"");
+  if(fileUrl&&ft.startsWith("video/")){
+    const entries=qualityEntries(x);
+    const options=entries.map((e,i)=>`<option value="${esc(mediaUrl(e.data))}" ${i===0?'selected':''}>${esc(qualityLabel(e))}</option>`).join("");
+    player=`<div class="video-wrap"><video id="classVideo" controls playsinline preload="metadata" ${coverUrl?`poster="${esc(coverUrl)}"`:""} src="${esc(fileUrl)}"></video>${entries.length>1?`<div class="video-tools"><span>📺 Choose video quality</span><label><select aria-label="Video quality" onchange="switchVideoQuality(this)">${options}</select></label></div>`:''}</div>`;
+  } else if(fileUrl&&ft==="application/pdf") player=`<iframe src="${esc(fileUrl)}" title="Class PDF"></iframe>`;
+  else if(fileUrl&&ft.startsWith("image/")) player=`<img src="${esc(fileUrl)}" alt="${esc(x.title)}">`;
+  else if(fileUrl&&/^(text\/|application\/json)/.test(ft)) player=`<iframe src="${esc(fileUrl)}" title="Class notes"></iframe>`;
+  else if(x.url) player=`<iframe src="${esc(x.url)}" title="Online class" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+  else player=`<div class="player-placeholder"><strong>📚 ${esc(x.title)}</strong><span>No playable class file is attached yet.</span></div>`;
+
+  $("title").textContent=x.title;
+  $("view").innerHTML=`<div class="detail-shell">
+    <div class="detail-back"><button class="btn" onclick="go('classes')">← Back to Classes</button></div>
+    <div class="player">${player}</div>
+    <div class="detail-info">
+      <section class="panel">
+        <h1 class="detail-title">${esc(x.title)}</h1>
+        <div class="meta">${x.subject?`📘 ${esc(x.subject)} • `:""}${x.date?`📅 ${fullDate(x.date)} • `:""}⏰ ${timeText(x.time)}${x.chapterName?` • 🗂️ ${esc(x.chapterName)}`:""}</div>
+        ${x.notes?`<div class="file-strip">📝 ${esc(x.notes)}</div>`:""}
+        ${x.fileName?`<div class="file-strip">📦 <b>${esc(x.fileName)}</b>${x.fileSize?` • ${(x.fileSize/1024/1024).toFixed(1)} MB`:""}</div>`:""}
+        ${x.fileData?`<div class="notice storage-note">${x.savedInApp?'✅ Downloaded inside ClassFlow. The class stays in this app storage, not in your phone Gallery/Downloads.':'ℹ️ This class is available to the ClassFlow player. Use “Download inside App” to save it for offline use on this device.'}${x.qualityData&&Object.keys(x.qualityData).length?` Multiple video qualities are saved with this class.`:""}</div>`:""}
+      </section>
+      <div class="detail-actions">
+        ${(x.fileData||x.url)?`<button type="button" class="btn green" data-save-id="${esc(x.id)}" onclick="downloadFile('${x.id}')">${x.savedInApp?'✅ Saved in ClassFlow':'📥 Download inside App'}</button>`:""}
+        ${x.url?`<button type="button" class="btn" onclick="window.open('${esc(x.url)}','_blank')">↗ Open Online</button>`:""}
+        <button type="button" class="btn" onclick="toggle('${x.id}');openDetails('${x.id}')">${x.done?'↩ Mark Pending':'✓ Mark Done'}</button>
+        <button type="button" class="btn primary" onclick="edit('${x.id}')">Edit</button>
+      </div>
+    </div>
+  </div>`;
+}
+async function openAdd(type='class',id=null,chapterId=null,presetDate=null){const a=await all(),x=id?a.find(z=>z.id===id):null,chaptersA=getChapters(a);editId=id;$('mt').textContent=x?'Edit '+typeLabel(type):'Add '+typeLabel(type);const date=x?.date||presetDate||localKey();const selectedChapter=x?.chapterId||chapterId||activeChapter||'';
+let common=`<div class="two"><label>${type==='class'?'Subject':'Title'}<input id="fTitle" required value="${esc(type==='class'?(x?.title||''):(x?.title||''))}" placeholder="${type==='class'?'e.g. Variables & Data Types':type==='exam'?'e.g. Mid Term — CSE115':'e.g. Practice Chapter 3'}"></label>${type==='class'?`<label>Subject<input id="fSubject" required value="${esc(x?.subject||'')}" placeholder="CSE115"></label>`:''}</div>`;
+let dateTime=`<div class="two"><label>Date<input id="fDate" type="date" required value="${date}"></label><label>Time<input id="fTime" type="time" value="${x?.time||''}"></label></div>`;
+let extra='';
+if(type==='class')extra=`<label>Chapter folder<select id="fChapter"><option value="">Unfiled</option>${chaptersA.map(c=>`<option value="${c.id}" ${c.id===selectedChapter?'selected':''}>${esc(c.title)}</option>`).join('')}</select></label><label>Online class/video link<input id="fUrl" type="url" value="${esc(x?.url||'')}" placeholder="https://..."></label><label>Class file<div class="filebox">Attach the main class video/PDF/notes/file<input id="fFile" type="file" accept="video/*,application/pdf,image/*,.zip,.rar,.7z,.doc,.docx,.ppt,.pptx,.txt,.md">${x?.fileName?`<div class="meta file-note">Saved: ${esc(x.fileName)}</div>`:''}</div></label><label>Video quality versions<div class="filebox">For real 144p/360p/480p/720p switching, upload separate versions of the same video. All versions stay inside ClassFlow.<div class="two" style="margin-top:10px"><label>144p<input id="f144" type="file" accept="video/*"></label><label>360p<input id="f360" type="file" accept="video/*"></label><label>480p<input id="f480" type="file" accept="video/*"></label><label>720p<input id="f720" type="file" accept="video/*"></label><label>1080p<input id="f1080" type="file" accept="video/*"></label></div><div class="quality-help">The player shows a Quality menu when more than one video version is saved.</div></div></label><label>Cover / Thumbnail image<div class="filebox">Choose the picture that will appear on the class card<input id="fCover" class="cover-picker" type="file" accept="image/*"></div><div class="cover-note">Tip: use the class cover/poster image like your screenshot.</div></label>`;
+if(type==='exam')extra=`<div class="two"><label>Subject<input id="fSubject" required value="${esc(x?.subject||'')}" placeholder="CSE115"></label><label>Room / Place<input id="fRoom" value="${esc(x?.room||'')}" placeholder="Room 402"></label></div>`;
+extra+=`<label>${type==='class'?'Notes':'Details'}<textarea id="fNotes">${esc(x?.notes||'')}</textarea></label>`;
+$('form').innerHTML=common+dateTime+extra+`<div class="actions" style="justify-content:flex-end"><button type="button" class="btn" onclick="$('modal').classList.remove('show')">Cancel</button><button class="btn primary">Save</button></div>`;
+$('form').onsubmit=async e=>{e.preventDefault();const old=x||{},f=$('fFile')?.files[0],cover=$('fCover')?.files[0],obj={...old,id:id||uid(),type,done:old.done||false,title:$('fTitle').value.trim(),date:$('fDate').value,time:$('fTime').value,notes:$('fNotes').value.trim()};if(type==='class'){obj.subject=$('fSubject').value.trim();obj.chapterId=$('fChapter').value||'';obj.chapterName=chapterName(a,obj.chapterId);obj.url=$('fUrl').value.trim();}if(type==='exam'){obj.subject=$('fSubject').value.trim();obj.room=$('fRoom').value.trim()}if(f){obj.fileName=f.name;obj.fileType=f.type||'application/octet-stream';obj.fileSize=f.size;obj.fileData=f}else if(old.fileData){obj.fileName=old.fileName;obj.fileType=old.fileType;obj.fileSize=old.fileSize;obj.fileData=old.fileData}if(type==='class'){const oldQ=old.qualityData||{};const qualityData={...oldQ};for(const [key,idq] of [['144p','f144'],['360p','f360'],['480p','f480'],['720p','f720'],['1080p','f1080']]){const qf=$(idq)?.files?.[0];if(qf)qualityData[key]={name:qf.name,type:qf.type||'video/*',size:qf.size,data:qf}}if(Object.keys(qualityData).length){obj.qualityData=qualityData;if(!obj.fileData){const preferred=['1080p','720p','480p','360p','144p'].find(k=>qualityData[k]?.data);if(preferred){const q=qualityData[preferred];obj.fileName=q.name;obj.fileType=q.type;obj.fileSize=q.size;obj.fileData=q.data}}}else delete obj.qualityData;if(cover){obj.coverName=cover.name;obj.coverType=cover.type;obj.coverData=cover}else if(old.coverData){obj.coverName=old.coverName;obj.coverType=old.coverType;obj.coverData=old.coverData}}
+try{await put(obj);$('modal').classList.remove('show');render()}catch(err){console.error(err);alert(err?.name==='QuotaExceededError'?'File is too large for this device/browser storage. Try a smaller file or PDF.':'Could not save. Please retry in Chrome.')}};$('modal').classList.add('show');const picker=$('fFile');if(picker)picker.onchange=()=>{const f=picker.files?.[0];if(f){let note=picker.parentElement.querySelector('.file-note');if(!note){note=document.createElement('div');note.className='meta file-note';picker.parentElement.appendChild(note)}note.textContent=`Selected: ${f.name} • ${(f.size/1024/1024).toFixed(1)} MB`}}}
+async function openChapter(id=null){const a=await all(),x=id?a.find(z=>z.id===id):null;$('mt').textContent=x?'Edit Chapter':'New Chapter';$('form').innerHTML=`<label>Chapter name<input id="fChapterTitle" required value="${esc(x?.title||'')}" placeholder="C Programming — Chapter 01"></label><div class="actions" style="justify-content:flex-end"><button type="button" class="btn" onclick="$('modal').classList.remove('show')">Cancel</button><button class="btn primary">Save Chapter</button></div>`;$('form').onsubmit=async e=>{e.preventDefault();const title=$('fChapterTitle').value.trim();if(!title)return;await put({id:id||uid(),type:'chapter',title});$('modal').classList.remove('show');render()};$('modal').classList.add('show')}
+async function deleteChapter(id){const a=await all(),classesA=a.filter(x=>x.type==='class'&&x.chapterId===id);if(classesA.length&&!confirm(`This chapter has ${classesA.length} class(es). Delete the chapter only and move classes to Unfiled?`))return;for(const c of classesA){c.chapterId='';c.chapterName='';await put(c)}await del(id);render()}
+async function openRecurring(presetDate=null){const a=await all(),chaptersA=getChapters(a),base=parseKey(presetDate||localKey()),defaultWeek=base.getDay();$('mt').textContent='Repeat Weekly';$('form').innerHTML=`<label>What should repeat?<input id="rTitle" required placeholder="Every Saturday — C Programming practice"></label><div class="two"><label>Type<select id="rType"><option value="task">Task</option><option value="class">Class</option><option value="exam">Exam</option></select></label><label>Time<input id="rTime" type="time"></label></div><div class="three"><label>Start date<input id="rStart" type="date" value="${presetDate||localKey()}"></label><label>Duration<select id="rDuration"><option value="2w">2 weeks</option><option value="1m">1 month</option><option value="2m" selected>2 months</option><option value="4m">4 months</option><option value="custom">Custom weeks</option></select></label><label>Custom weeks<input id="rWeeks" type="number" min="1" max="52" value="8" disabled></label></div><label>Weekdays</label><div class="seg">${[['0','Sun'],['1','Mon'],['2','Tue'],['3','Wed'],['4','Thu'],['5','Fri'],['6','Sat']].map(([v,n])=>`<label><input type="checkbox" name="rw" value="${v}" ${Number(v)===defaultWeek?'checked':''}> ${n}</label>`).join('')}</div><div class="two"><label>Subject / Course<input id="rSubject" placeholder="CSE115"></label><label>Chapter folder<select id="rChapter"><option value="">Unfiled</option>${chaptersA.map(c=>`<option value="${c.id}">${esc(c.title)}</option>`).join('')}</select></label></div><label>Details<textarea id="rNotes" placeholder="What should be done every selected day?"></textarea></label><div class="notice">This will create actual calendar entries for every selected weekday during the chosen duration. Example: select Saturday + 2 months → every Saturday gets the same task.</div><div class="actions" style="justify-content:flex-end"><button type="button" class="btn" onclick="$('modal').classList.remove('show')">Cancel</button><button class="btn primary">Create Repeating Schedule</button></div>`;$('modal').classList.add('show');$('rDuration').onchange=()=>{$('rWeeks').disabled=$('rDuration').value!=='custom'};$('form').onsubmit=async e=>{e.preventDefault();const title=$('rTitle').value.trim(),type=$('rType').value,start=$('rStart').value,weekdays=[...document.querySelectorAll('input[name="rw"]:checked')].map(x=>Number(x.value));if(!weekdays.length){alert('Select at least one weekday.');return}let end=new Date(start+'T12:00:00');const d=$('rDuration').value;if(d==='2w')end.setDate(end.getDate()+13);if(d==='1m')end.setMonth(end.getMonth()+1);if(d==='2m')end.setMonth(end.getMonth()+2);if(d==='4m')end.setMonth(end.getMonth()+4);if(d==='custom')end.setDate(end.getDate()+(Math.max(1,Number($('rWeeks').value)||1)*7-1));const chapterId=$('rChapter').value;const chapterN=chapterName(a,chapterId);const generated=[];for(let cur=new Date(start+'T12:00:00');cur<=end;cur.setDate(cur.getDate()+1)){if(weekdays.includes(cur.getDay()))generated.push({id:uid(),type,done:false,title,date:localKey(cur),time:$('rTime').value,notes:$('rNotes').value.trim(),subject:$('rSubject').value.trim(),chapterId,chapterName:chapterN,seriesId:uid()})}const seen=new Set();const final=[];for(const g of generated){const key=g.date+'|'+g.time+'|'+g.type+'|'+g.title;if(!seen.has(key)){seen.add(key);final.push(g)}}if(!final.length){alert('No dates matched the selected schedule.');return}await putMany(final);$('modal').classList.remove('show');calCursor=parseKey(start);render()}}
+async function toggle(id){const a=await all(),x=a.find(z=>z.id===id);if(!x)return;x.done=!x.done;await put(x);render()}
+async function edit(id){const a=await all(),x=a.find(z=>z.id===id);if(!x)return;if(x.type==='chapter')return openChapter(id);if(currentView==='class-detail')currentView='classes';openAdd(x.type,id)}
+async function removeItem(id){if(!confirm('Delete this item?'))return;await del(id);$('modal').classList.remove('show');render()}
+async function downloadFile(id){
+  const a=await all(),x=a.find(z=>z.id===id);if(!x)return;
+  try{
+    if(x.fileData){
+      x.savedInApp=true;x.savedAt=Date.now();await put(x);
+      const btn=document.querySelector('[data-save-id="'+id+'"]');
+      if(btn){btn.textContent='✅ Saved in ClassFlow';btn.disabled=true;}
+      alert('✅ Class saved inside ClassFlow. It will stay in this app storage, not your phone Gallery/Downloads.');
+      return;
+    }
+    if(x.url){
+      const r=await fetch(x.url,{mode:'cors'});if(!r.ok)throw new Error('Download failed');
+      const blob=await r.blob();
+      x.fileData=blob;x.fileName=x.fileName||((x.title||'class').replace(/[^a-z0-9-_]+/gi,'_')+'.mp4');x.fileType=blob.type||'video/mp4';x.fileSize=blob.size;x.savedInApp=true;x.savedAt=Date.now();
+      await put(x);render();
+      if(currentView==='class-detail')openDetails(id);
+      alert('✅ Class downloaded inside ClassFlow. It will not be placed in your phone Gallery/Downloads.');
+      return;
+    }
+    alert('No class file or downloadable link is attached.');
+  }catch(err){console.error(err);alert('Could not save this class inside the app. The online link may block browser downloading (CORS), or device storage may be full.');}
+}
+$('add').onclick=()=>currentView==='tasks'?openAdd('task'):currentView==='calendar'?openAdd('class'):currentView==='chapters'?openChapter():openAdd('class');
+$('shareApp').onclick=shareApp;$('shareAppSide').onclick=shareApp;$('close').onclick=()=>{ $('modal').classList.remove('show') };$('modal').addEventListener('click',e=>{if(e.target.id==='modal')$('modal').classList.remove('show')});document.addEventListener('keydown',e=>{if(e.key==='Escape')$('modal').classList.remove('show')});document.querySelector('.nav').addEventListener('click',e=>{const b=e.target.closest('button[data-p]');if(!b)return;e.preventDefault();navigate(b.dataset.p)});window.addEventListener('hashchange',()=>{const p=location.hash.replace('#','');if(['home','tasks','classes','chapters','calendar'].includes(p)&&p!==currentView){currentView=p;render()}});if(['home','tasks','classes','chapters','calendar'].includes(location.hash.replace('#','')))currentView=location.hash.replace('#','');
+async function shareApp(){
+  const url=window.location.href;
+  const isLocal=/^(file:|blob:)/i.test(url);
+  $('mt').textContent='Share ClassFlow';
+  $('form').innerHTML=`<div class="share-card">
+    <b>🔗 Share this ClassFlow web app</b>
+    <p style="color:var(--muted);margin:8px 0 0">Copy the web address or use your phone/computer share sheet.</p>
+    <input class="share-url" id="shareUrl" readonly value="${esc(url)}">
+    ${isLocal?`<div class="notice" style="margin-top:12px">⚠️ This copy is currently running from a local file/ZIP. A local <b>file://</b> address will not open for other people. After you publish ClassFlow on an <b>HTTPS web address</b>, this same Share App button will share the public link.</div>`:`<div class="notice" style="margin-top:12px">✅ This is a web address that can be shared with other people.</div>`}
+  </div>
+  <div class="actions" style="justify-content:flex-end;margin-top:12px;flex-wrap:wrap">
+    <button type="button" class="btn" id="copyShareLink">📋 Copy Link</button>
+    ${navigator.share?`<button type="button" class="btn primary" id="nativeShare">📤 Share</button>`:''}
+    <button type="button" class="btn" id="closeShare">Close</button>
+  </div>`;
+  $('modal').classList.add('show');
+  $('copyShareLink').onclick=async()=>{
+    try{await navigator.clipboard.writeText(url);$('copyShareLink').textContent='✅ Copied!';setTimeout(()=>{$('copyShareLink').textContent='📋 Copy Link'},1400)}
+    catch(_e){const i=$('shareUrl');i.focus();i.select();document.execCommand('copy');$('copyShareLink').textContent='✅ Copied!';setTimeout(()=>{$('copyShareLink').textContent='📋 Copy Link'},1400)}
+  };
+  if($('nativeShare')) $('nativeShare').onclick=async()=>{try{await navigator.share({title:'ClassFlow',text:'Open my ClassFlow study web app',url})}catch(_e){}};
+  $('closeShare').onclick=()=>{ $('modal').classList.remove('show') };
+}
+function showInstallGuide(){
+  $('mt').textContent='Install ClassFlow on Android';
+  $('form').innerHTML=`<div class="android-note"><b>📱 Install as an Android app</b><br><br>1. Open ClassFlow in <b>Google Chrome</b> on Android.<br>2. Tap Chrome's <b>⋮</b> menu.<br>3. Choose <b>Install app</b> or <b>Add to Home screen</b>.<br>4. Confirm <b>Install</b>.<br><br>After installation, ClassFlow opens like a normal app and your saved classes, files, calendar and tasks stay on that device.</div><div class="notice">For the one-tap Install App prompt to appear automatically, ClassFlow must be opened from a secure web address (HTTPS). A ZIP opened directly from the phone's file manager may not show the automatic prompt, so use the Chrome menu method above.</div><div class="actions" style="justify-content:flex-end"><button type="button" class="btn primary" onclick="$('modal').classList.remove('show')">Done</button></div>`;
+  $('modal').classList.add('show');
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').classList.add('show')});
+window.addEventListener('appinstalled',()=>{deferred=null;$('install').textContent='✅ App Installed'});
+$('install').onclick=async()=>{if(deferred){deferred.prompt();try{await deferred.userChoice}catch(_e){}deferred=null;return}showInstallGuide()};
+Object.assign(window,{
+  go,navigate,openDetails,openAdd,openChapter,openRecurring,edit,removeItem,toggle,downloadFile,dayAction,moveMonth
+});
+
+const savedTheme=safeStorageGet('classflowTheme','dark');function applyTheme(t){document.body.classList.remove('light','eyesafe');if(t==='light')document.body.classList.add('light');if(t==='eyesafe')document.body.classList.add('eyesafe');document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));safeStorageSet('classflowTheme',t)}document.querySelectorAll('.theme-btn').forEach(b=>b.onclick=()=>applyTheme(b.dataset.theme));applyTheme(savedTheme);
+async function requestPersistentStorage(){try{if(navigator.storage?.persist)await navigator.storage.persist()}catch(_e){}}
+async function boot(){try{db=await openDB();storageMode="indexedDB"}catch(e){db=null;storageMode="memory";console.error('ClassFlow storage fallback:',e);const status=$('storageStatus');if(status)status.innerHTML='⚠️ Browser storage is blocked. ClassFlow is running in temporary mode.<br>Use Chrome/Edge with site storage enabled for permanent saved classes.'}await requestPersistentStorage();await render()}
+boot().catch(e=>{console.error('ClassFlow boot error:',e);const status=$('storageStatus');if(status)status.innerHTML='⚠️ ClassFlow started with limited storage. Navigation is still available.';render()});
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js'));
+</script>
+</body>
+</html>
